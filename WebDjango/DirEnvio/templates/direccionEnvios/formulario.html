@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col">
+        <div class="h3">
+            Nueva direccion
+        </div>
+        <div>
+            {% include "direccionEnvios/snippets/form.html" with boton="Agregar" %}
+        </div>
+       
+    </div>
+
+{% endblock %}
+

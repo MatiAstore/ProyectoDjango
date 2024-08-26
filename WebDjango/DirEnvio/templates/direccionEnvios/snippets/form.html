@@ -1,0 +1,22 @@
+<div class="mt-4">
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <!-- Nombre del campo -->
+                {{field.label_tag}} 
+                <!-- Campo -->
+                {{field}} 
+
+                <!-- Manejo de errores -->
+                {% if field.errors %}
+                    {{field.errors}}
+                {% endif %}
+
+            </div>
+        {% endfor%}
+        <button class="btn btn-warning mt-2" type="Submit">{{boton}}</button>
+    </form>
+</div>
+

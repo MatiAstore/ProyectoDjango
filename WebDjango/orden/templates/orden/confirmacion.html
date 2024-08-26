@@ -1,0 +1,118 @@
+{% extends "base.html "%}
+
+{% block breadcrumb %}
+    {% include "orden/snippets/breadcrumb.html" %}
+{% endblock%}
+
+
+{% block content %}
+ <div class="row">
+    <div class="col-8">
+        <div class="h3">
+            Confirmacion de pedido 
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="badge bg-primary text-wrap">
+                            Direccion de envio 
+                        </div>
+                        <div class="fst-italic">
+                            {{direccion_envio.direccion}}
+                        </div>
+                        <div class="fst-italic">
+                           <span class="fw-bold">Domicilio: </span>{{direccion_envio.line1}}
+                        </div>
+                        <div class="fst-italic">
+                            <span class="fw-bold">Referencia: </span> {{direccion_envio.reference}}
+                        </div>
+                        <div class="fst-italic">
+                            <span class="fw-bold">Codigo Postal: </span> {{direccion_envio.postal_code}}
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="badge bg-danger text-wrap">Metodo de pago</div>
+                        <div class="fst-italic">
+                            <span class="fw-bold">Tarjeta de pago: </span>164539342
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="badge bg-warning text-wrap">Codigo de descuento</div>
+                        <form id = "formPromo-codigo" action="{% url 'validar' %}">
+                            <input type="text" name="codigo" value="{{orden.promo_codigo.codigo}}" class="form-control" placeholder="Codigo descuento" {% if orden.promo_codigo %} readonly {% endif %}>
+                        </form>
+                        <div class="text-success" id="codigosucces" style="font-size:15px;">
+                            {% if orden.promo_codigo %}
+                                Codigo aplicado
+                            {% endif %} 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-primary mt-2" role="alert">
+            Esta es tu orden hasta el momento <a href="{% url 'orden' %}" class="alert-link">Mi orden</a>
+        </div>
+
+        <div class="mt-2">
+            <div class="card">
+                <div class="card-body">
+                    {% for product in cart.products.all %}
+                        {% include "orden/snippets/product.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col mt-2">
+        {% url 'completado' as next_url %}
+        {% include 'orden/snippets/detalles.html' with next_url=next_url %}
+
+        <div class="">
+            <div class="card card border-danger mb-3" style="width:18rem;">
+                <div class="card-body">
+                    <a class="btn btn-danger d-grid gap-2" href="{% url 'cancelar'%}">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+{% endblock %}
+
+
+{% block js%}
+<script>
+    const form = document.getElementById("formPromo-codigo")
+
+    form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const input = this.codigo; 
+    const codigo = input.value; 
+    const url = this.action + "?code=" + codigo; 
+    const cont_total = document.getElementById("orden-total");
+    const cont_succes = document.getElementById("codigosucces");
+
+    console.log(url); 
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === true){  // Cambiado a `true`
+                cont_total.innerHTML = "$" + response.total;
+                cont_succes.classList.remove("text-danger");
+                cont_succes.classList.add("text-success"); // Asegúrate de que sea `text-success` y no `text-succes`
+                cont_succes.innerHTML = "Codigo Aplicado";
+            } else {
+                cont_succes.classList.remove("text-success");
+                cont_succes.classList.add("text-danger");
+                cont_succes.innerHTML = "Codigo no valido";
+            }             
+        })
+});
+</script>
+
+{% endblock%}

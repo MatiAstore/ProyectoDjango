@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load funcion_tag %}
+
+{% block title %} Agregar {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        {% if product.image %}
+            <img src="{{product.image.url}}" alt="Productmagen" width="200" height="200">
+        {% endif %}
+        </div>
+
+    <div class="col">
+        <div class="h5 font-monospace alert alert-success">
+            Producto agregado al carrito
+        </div>
+        <div>
+            <a href="{% url 'product' product.slug %}">{{product.title}}</a>
+        </div>
+
+        <div class="h5 font-monospace alert alert-danger">
+            {{product.price | precio_tag }} 
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

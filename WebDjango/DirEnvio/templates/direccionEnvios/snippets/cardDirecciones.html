@@ -1,0 +1,21 @@
+<div class="card">
+    <h4 class="card-header"></h4>
+    <div class="card-body">
+        <h5 class="card-title">{{direccion_envio.direccion}}</h5>
+        <h6 class="card-subtitle">{{direccion_envio.postal_code}}</h6>
+        <p class="card-text">{{direccion_envio.reference}}</p>
+        <div class="mt-3">  
+            <a href="{% url 'update' direccion_envio.pk %}" class="btn btn-primary">Editar</a>
+            {% if direccion_envio.default %}
+                <div>
+                    <span class="badge bg-success">Direccion principal</span>
+                </div>
+            {% else %}
+               <a href="{% url 'default' direccion_envio.pk %}" class="btn btn-warning">Default</a>
+               <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2">
+                    <a href="{% url 'delete' direccion_envio.pk %}" class="btn btn-danger">Eliminar</a>
+                </div> 
+            {% endif %}
+        </div>
+    </div>
+</div>

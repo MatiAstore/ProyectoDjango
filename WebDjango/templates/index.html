@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{%load static%}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+
+{% include "products/snippets/search.html" %}
+  <h1>{{mensaje}}</h1>
+  <div class="row">
+    {% include "products/snippets/listP.html" %}
+  </div>
+{% endblock %}

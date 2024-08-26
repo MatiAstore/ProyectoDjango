@@ -1,0 +1,15 @@
+{% extends "base.html "%}
+
+{% block content%}
+    <div class="col">
+        <h3>Confirmacion de eliminacion</h3>
+        <div class="h6 text-danger">
+            <p>Estas seguro que deseas eliminar la direccion?</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'direccion_envio' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock%}

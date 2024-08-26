@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="col">
+    <div class="form-group">
+        Metodo de pago 
+    </div>
+</div>
+
+<div class="">
+    <form action="{% url 'metodopago' %}" method="post" id="payment-form">
+        <div class="form-group">
+            <div class="form-control form-control-payment" id="card-element">
+
+            </div>
+            <div id="card-erros" role='alert'>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" data-secret="{{ client_secret }}" class="mt-3">Agregar tarjeta</button>
+    </form>
+</div>
+
+
+<script>
+    var STRIPE_PUBLIC_KEY = "pk_test_51PqE8n09eRsNzhu25MdjW4NUxNWyka1kwCknPf2SoNcWIMEIsNmjuJMEDe09W8XWhahfM0DWrXGPh8EFNWeZwQTU00jYL5ypsz"
+    var CSRF_TOKEN = "{{csrf_token}}";
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/index.js' %}"></script>
+
+{% endblock%}
